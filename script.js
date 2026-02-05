@@ -1,0 +1,59 @@
+function openModal(type) {
+  document.getElementById("modal").style.display = "block";
+
+  // Clear previous values
+  document.getElementById("role").value = "";
+  document.getElementById("company").value = "";
+  document.getElementById("details").value = "";
+  document.getElementById("output").value = "";
+
+  // Set title
+  if (type === "cover")
+    document.getElementById("modalTitle").innerText = "Cover Letter Generator";
+
+  if (type === "linkedin")
+    document.getElementById("modalTitle").innerText = "LinkedIn Message Generator";
+
+  if (type === "resume")
+    document.getElementById("modalTitle").innerText = "Resume Bullet Generator";
+}
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("output").value = "";
+}
+
+
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function copyText() {
+  const output = document.getElementById("output");
+  output.select();
+  document.execCommand("copy");
+  alert("Copied!");
+}
+
+
+async function generate() {
+
+  const role = document.getElementById("role").value;
+  const company = document.getElementById("company").value;
+  const details = document.getElementById("details").value;
+  const type = document.getElementById("modalTitle").innerText.toLowerCase().includes("cover") ? "cover" :
+               document.getElementById("modalTitle").innerText.toLowerCase().includes("linkedin") ? "linkedin" :
+               "resume";
+
+  const response = await fetch("http://localhost:5000/generate", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ role, company, details, type })
+  });
+
+  const data = await response.json();
+
+  document.getElementById("output").value = data.result;
+}

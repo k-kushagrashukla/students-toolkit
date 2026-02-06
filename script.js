@@ -45,7 +45,7 @@ async function generate() {
                document.getElementById("modalTitle").innerText.toLowerCase().includes("linkedin") ? "linkedin" :
                "resume";
 
-  const response = await fetch("http://localhost:5000/generate", {
+  const response = await fetch("https://students-toolkit.onrender.com", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
